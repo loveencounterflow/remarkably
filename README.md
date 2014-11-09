@@ -108,7 +108,7 @@ and `extend` contains the code expected by the `use` method of a `remarkable` pa
 ## A Note on `remarkable` Version and How to Install It
 
 As of now (2014-11-09), the `remarkable` version on npmjs.org does *not* work with ReMarkably; instead,
-you'll have to clone the remarkly repo on GitHub with
+you'll have to clone the `remarkable` repo on GitHub with
 
 ```bash
 cd node_modules
