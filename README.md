@@ -37,7 +37,7 @@ one to rule them all.
 > means jumping through too many Java-Enterprisy hoops (at least when i last checked five years ago). Is it
 > extensible? Don't try at home.
 >
-> In Python, extending syntax is seen as something dangerous, as an activity that can't be left to users
+> In the Python community, extending syntax is seen as something dangerous, as an activity that can't be left to users
 > but must be firmely policed by an inner circle of senior contributors. Given
 > the fairly traditional Lex-YACC-Bison-ish tooling of the parser, that's even true because you'd have to
 > make changes in like
