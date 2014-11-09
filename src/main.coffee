@@ -42,13 +42,14 @@ do =>
       #.....................................................................................................
       ( get[ collection_name ]?= {} )[ extension_name ] = ->
         extension           = require route
-        name                = extension[ 'name' ]?= extension_name
+        full_name           = "REMARKABLY/#{collection_name}/#{extension_name}"
+        extension[ 'name' ] = full_name
         #...................................................................................................
         for method_name in [ 'parse', 'render', 'extend', ]
           extension[ method_name ] = method.bind extension if ( method = extension[ method_name ] )?
         #...................................................................................................
         R             = extension.extend
-        R[ 'name'   ] = full_name = "REMARKABLY/#{collection_name}/#{name}"
+        R[ 'name'   ] = full_name
         R[ 'about'  ] = ( extension.about ? "(no documentation)" ).replace /\$name\$/g, full_name
         #...................................................................................................
         return R
@@ -64,8 +65,7 @@ do =>
 # MAIN
 #-----------------------------------------------------------------------------------------------------------
 @main = ->
-  RMY         = require 'remarkably'
-  # video_rmy   = require 'remarkably/lib/examples/video'
+  RMY         = @
   ReMarkable  = require 'remarkable'
   #.........................................................................................................
   enable      = 'full'
@@ -78,13 +78,11 @@ do =>
     typographer:    yes,
     quotes:         '“”‘’'
   #.........................................................................................................
-  RM          = new ReMarkable enable, settings
-  # same as `remarkable_parser.use extension.extend`:
-  # RMY.extend RM, RMY.examples.emphasis
-  # RMY.extend RM, video_rmy
+  RM                        = new ReMarkable enable, settings
   RMY.extend RM, video      = RMY.get.examples.video()
   RMY.extend RM, emphasis   = RMY.get.examples.emphasis()
   RMY.extend RM, emphasis2  = RMY.get.examples.emphasis2()
+  debug emphasis2
   source        = """=This= ==is== ===very=== §awesome§(c): %[example movie](http://example.com)"""
   # whisper ast   = RM.parse  source
   info    html  = RM.render source
