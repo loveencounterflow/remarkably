@@ -1,11 +1,11 @@
 
 
 #-----------------------------------------------------------------------------------------------------------
-@about = """$name$ recognizes markup with `§paragraph signs§` and translates them into
+@about = """$name$ recognizes markup with `_underscores_` and translates them into
   pairs of `<em>...</em>` tags."""
 
 #-----------------------------------------------------------------------------------------------------------
-@_chr = '§'
+@_chr = '_'
 
 #-----------------------------------------------------------------------------------------------------------
 @parse = ( state, silent ) ->
@@ -43,6 +43,6 @@
 
 #-----------------------------------------------------------------------------------------------------------
 @extend = ( self ) ->
-  self.inline.ruler.after 'backticks', @name, @parse
+  self.inline.ruler.before self.inline.ruler[ 'rules' ][ 0 ][ 'name' ], @name, @parse
   self.renderer.rules[ @name ] = @render
   return null

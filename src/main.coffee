@@ -17,6 +17,7 @@ echo                      = TRM.echo.bind TRM
 TEXT                      = require 'coffeenode-text'
 #...........................................................................................................
 glob                      = require 'glob'
+@ReMarkable               = require 'remarkable-dev'
 
 
 #-----------------------------------------------------------------------------------------------------------
@@ -66,7 +67,6 @@ do =>
 #-----------------------------------------------------------------------------------------------------------
 @main = ->
   RMY         = @
-  ReMarkable  = require 'remarkable'
   #.........................................................................................................
   enable      = 'full'
   settings    =
@@ -78,20 +78,19 @@ do =>
     typographer:    yes,
     quotes:         '“”‘’'
   #.........................................................................................................
-  RM                        = new ReMarkable enable, settings
+  RM                     = new RMY.ReMarkable enable, settings
   RMY.use RM, video      = RMY.get.examples.video()
   RMY.use RM, emphasis   = RMY.get.examples.emphasis()
   RMY.use RM, emphasis2  = RMY.get.examples.emphasis2()
-  debug emphasis2
-  source        = """=This= ==is== ===very=== §awesome§(c): %[example movie](http://example.com)"""
-  # whisper ast   = RM.parse  source
+  source        = """=This= ==is== ===very=== _awesome_(c): %[example movie](http://example.com)"""
+  whisper source
   info    html  = RM.render source
-  help()
-  help emphasis.about
-  help()
-  help emphasis2.about
-  help()
-  help video.about
+  # help()
+  # help emphasis.about
+  # help()
+  # help emphasis2.about
+  # help()
+  # help video.about
 
 
 ############################################################################################################

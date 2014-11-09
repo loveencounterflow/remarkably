@@ -48,7 +48,6 @@
 
 #-----------------------------------------------------------------------------------------------------------
 @extend = ( self ) ->
-  console.log '©6z2', @name
   self.inline.ruler.before self.inline.ruler[ 'rules' ][ 0 ][ 'name' ], @name, @parse
   self.renderer.rules[ @name ] = @render
   return null

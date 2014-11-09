@@ -4,7 +4,7 @@
 	- [What is it for?](#what-is-it-for)
 	- [Usage](#usage)
 	- [Writing Your Own Extension](#writing-your-own-extension)
-	- [A Note on `remarkable` Version and How to Install It](#a-note-on-remarkable-version-and-how-to-install-it)
+	- [A Note on the bundled `remarkable` Version](#a-note-on-the-bundled-remarkable-version)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
@@ -74,7 +74,6 @@ It's quite simple (using CoffeeScript here):
 ```coffee
 log         = console.log
 RMY         = require 'remarkably'
-ReMarkable  = require 'remarkable'
 
 enable      = 'full'
 settings    =
@@ -86,8 +85,7 @@ settings    =
   typographer:    yes,
   quotes:         '“”‘’'
 
-RM          = new Remarkable enable, settings
-# same as `remarkable_parser.use extension.extend`:
+RM          = new RMY.Remarkable enable, settings
 RMY.extend RM, RMY.examples.emphasis
 RMY.extend RM, RMY.examples.video
 
@@ -104,15 +102,14 @@ contain a short text explaining syntax, rendering, and possible options; `parse`
 optionally, `render` contains a rendering function (in case you do not use one of the existing renderers),
 and `extend` contains the code expected by the `use` method of a `remarkable` parser instance.
 
+## A Note on the bundled `remarkable` Version
 
-## A Note on `remarkable` Version and How to Install It
+As of now (2014-11-09), the `remarkable` version avilable on npmjs.org does *not* work with ReMarkably;
+instead, <strike>you'll have to clone the `remarkable` repo on GitHub</strike> a custom-made version
+dubbed `remarkable-dev` has been bundles and can be accessed as
 
-As of now (2014-11-09), the `remarkable` version on npmjs.org does *not* work with ReMarkably; instead,
-you'll have to clone the `remarkable` repo on GitHub with
-
-```bash
-cd node_modules
-git clone https://github.com/jonschlinkert/remarkable.git
+```coffee
+RM = new ( require 'remarkably' ).ReMarkable presets, settings
 ```
 
 I guess this will not be an issue for much longer as the necessary code changes have been integrated into
