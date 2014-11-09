@@ -47,7 +47,7 @@ one to rule them all.
 > intense scrutiny and deliberation, and your proposal will likely get downvoted.
 
 > Such strict procedures are
-> necessary to uphold the quality of monolithic languages. After all, millions of users will be confronted
+> necessary to uphold the quality of monolithic languages. After all, uncounted numbers of users will be confronted
 > with your changes, and any addition to the language will likely be kept indefinitely because even correcting
 > a mistake may break backward compatibility. JavaScript programmers know this very well: they have to live
 > with lots of 'original sins' because their language was born under a very swiftly wandering star, and
