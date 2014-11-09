@@ -35,15 +35,22 @@ glob                      = require 'glob'
 _me = @
 get = @get = {}
 do =>
+  #.........................................................................................................
   for [ collection_name, extension_name, route, ] in _me._discover()
+    #.......................................................................................................
     do ( collection_name, extension_name, route ) ->
+      #.....................................................................................................
       ( get[ collection_name ]?= {} )[ extension_name ] = ->
-        extension = require route
-        for name in [ 'parse', 'render', 'extend', ]
-          extension[ name ] = method.bind extension if ( method = extension[ name ] )?
-        R = extension.extend
-        R[ 'name'   ] = "REMARKABLY/#{collection_name}/#{extension_name}"
-        R[ 'about'  ] = extension.about ? "(no documentation)"
+        extension           = require route
+        name                = extension[ 'name' ]?= extension_name
+        #...................................................................................................
+        for method_name in [ 'parse', 'render', 'extend', ]
+          extension[ method_name ] = method.bind extension if ( method = extension[ method_name ] )?
+        #...................................................................................................
+        R             = extension.extend
+        R[ 'name'   ] = full_name = "REMARKABLY/#{collection_name}/#{name}"
+        R[ 'about'  ] = ( extension.about ? "(no documentation)" ).replace /\$name\$/g, full_name
+        #...................................................................................................
         return R
 
 #===========================================================================================================
