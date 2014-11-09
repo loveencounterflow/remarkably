@@ -25,14 +25,17 @@ npm install --save remarkably
 Finally, it's possible to easily extend your all-time favorite liteweight markup language, MarkDown.
 
 Heretofore, it has been difficult to extend the syntax of markup languages because their parsers were not
-often written with extensibility in mind—as in programming languages, many language designers are caught in
-a frame of thinking that makes them want to create *the* best language with *the* best syntax.
+often written with extensibility in mind—as in programming languages, many markup designers are caught in
+a frame of thinking that makes them want to create *the* best language with *the* best syntax, the *final*
+one to rule them all.
 
 > LISPers were never interested in syntax, because, hey, what can surpass a homoiconic language (yes, they
 > really call it that) with gazillions of brackets, right?
 >
-> In Python, extending syntax is seen as something dangerous,
-> and given the very traditional Lex-YACC-Bison-ish tooling of the parser, you'd have to make changes in like
+> In Python, extending syntax is seen as something dangerous, as an activity that can't be left to users
+> but must be firmely policed by an inner circle of senior contributors. Given
+> the fairly traditional Lex-YACC-Bison-ish tooling of the parser, that's even true because you'd have to
+> make changes in like
 > four or six files to add a trivial tidbit to the language, and then re-compile the entire
 > thing, which makes development feel like you're back to mainframes and please come back tomorrow to pick up
 > your printouts. Assuming you took that month-long upfront training class so you sorta know-what'cherdoing.
@@ -40,6 +43,16 @@ a frame of thinking that makes them want to create *the* best language with *the
 > the entire source tree and compile that themselves, or else you must provide binary packages. It's not
 > least this factor that has caused a lot of digital rot in the Python world, because compiling C sources
 > tends to be much more fragile than relying on an 'interpreted' (i.e. low-level-compilation-free) idiom.
+> In order to implement the tiniest of changes, you have to submit to a month-long or year-long period of
+> intense scrutiny and deliberation, and your proposal will likely get downvoted.
+
+> Such strict procedures are
+> necessary to uphold the quality of monolithic languages. After all, millions of users will be confronted
+> with your changes, and any addition to the language will likely be kept indefinitely because even correcting
+> a mistake may break backward compatibility. JavaScript programmers know this very well: they have to live
+> with lots of 'original sins' because their language was born under a very swiftly wandering star, and
+> there was no time to correct oversights. Now they're baked into the language, and any change for the
+> better in JS core could potentially break many millions of websites.
 >
 > ReStructuredText (also once known as ReStructuredTextNG) used to be a strong contender to MarkDown, but
 > IMHO it lost out because it's just too complicated—too many rules, and to setup a parser and *just parse*
