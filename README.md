@@ -36,12 +36,15 @@ a frame of thinking that makes them want to create *the* best language with *the
 > four or six files to add a trivial tidbit to the language, and then re-compile the entire
 > thing, which makes development feel like you're back to mainframes and please come back tomorrow to pick up
 > your printouts. Assuming you took that month-long upfront training class so you sorta know-what'cherdoing.
-> Sort of. It's really difficult.
+> Sort of. It's really difficult. And, having done that, anyone interested in your extension must download
+> the entire source tree and compile that themselves, or else you must provide binary packages. It's not
+> least this factor that has caused a lot of digital rot in the Python world, because compiling C sources
+> tends to be much more fragile than relying on an 'interpreted' (i.e. low-level-compilation-free) idiom.
 >
 > ReStructuredText (also once known as ReStructuredTextNG) used to be a strong contender to MarkDown, but
 > IMHO it lost out because it's just too complicated—too many rules, and to setup a parser and *just parse*
-> means jumping through too many loops (at least when i gave up on it five years ago). Is it extensible?
-> Don't try at home.
+> means jumping through too many Java-Enterprisy hoops (at least when i last checked five years ago). Is it
+> extensible? Don't try at home.
 >
 > As Douglas [Crockford convincingly demonstrates in his 2013 MLOCJS *Syntaxation*
 > talk](https://www.youtube.com/watch?v=9e_oEE72d3U), those times should be over. Languages should be
