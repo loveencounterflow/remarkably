@@ -32,6 +32,11 @@ one to rule them all.
 > LISPers were never interested in syntax, because, hey, what can surpass a homoiconic language (yes, they
 > really call it that) with gazillions of brackets, right?
 >
+> ReStructuredText (also once known as ReStructuredTextNG) used to be a strong contender to MarkDown, but
+> IMHO it lost out because it's just too complicated—too many rules, and to setup a parser and *just parse*
+> means jumping through too many Java-Enterprisy hoops (at least when i last checked five years ago). Is it
+> extensible? Don't try at home.
+>
 > In Python, extending syntax is seen as something dangerous, as an activity that can't be left to users
 > but must be firmely policed by an inner circle of senior contributors. Given
 > the fairly traditional Lex-YACC-Bison-ish tooling of the parser, that's even true because you'd have to
@@ -53,11 +58,6 @@ one to rule them all.
 > with lots of 'original sins' because their language was born under a very swiftly wandering star, and
 > there was no time to correct oversights. Now they're baked into the language, and any change for the
 > better in JS core could potentially break many millions of websites.
->
-> ReStructuredText (also once known as ReStructuredTextNG) used to be a strong contender to MarkDown, but
-> IMHO it lost out because it's just too complicated—too many rules, and to setup a parser and *just parse*
-> means jumping through too many Java-Enterprisy hoops (at least when i last checked five years ago). Is it
-> extensible? Don't try at home.
 >
 > As Douglas [Crockford convincingly demonstrates in his 2013 MLOCJS *Syntaxation*
 > talk](https://www.youtube.com/watch?v=9e_oEE72d3U), those times should be over. Languages should be
