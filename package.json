@@ -1,0 +1,31 @@
+{
+  "name": "remarkably",
+  "version": "0.1.0",
+  "description": "a collection of MarkDown syntax extensions for https://github.com/jonschlinkert/remarkable",
+  "main": "lib/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loveencounterflow/remarkably.git"
+  },
+  "keywords": [
+    "remarkable",
+    "markdown",
+    "md",
+    "commonmark",
+    "parser"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/loveencounterflow/remarkably/issues"
+  },
+  "homepage": "https://github.com/loveencounterflow/remarkably",
+  "dependencies": {
+    "coffee-script": "^1.8.0",
+    "coffeenode-text": "^0.1.9",
+    "coffeenode-trm": "^0.1.20"
+  }
+}
