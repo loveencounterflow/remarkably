@@ -2,6 +2,9 @@
 
 - [ReMarkably](#remarkably)
 	- [What is it for?](#what-is-it-for)
+	- [Usage](#usage)
+	- [Writing Your Own Extension](#writing-your-own-extension)
+	- [A Note on `remarkable` Version and How to Install It](#a-note-on-remarkable-version-and-how-to-install-it)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
@@ -10,6 +13,12 @@
 
 ReMarkably is a collection of MarkDown syntax extension to be used with [the truly remarkable Remarkable
 MarkDown parser](https://github.com/jonschlinkert/remarkable).
+
+Install with
+
+```bash
+npm install --save remarkably
+```
 
 ## What is it for?
 
@@ -35,8 +44,62 @@ a frame of thinking that makes them want to create *the* best language with *the
 > talk](https://www.youtube.com/watch?v=9e_oEE72d3U), those times should be over. Languages should be
 > extensible, and given the right tools, parsing can be much easier than it used to be.
 
-Sadly, at the time of this writing (2014-11-09), there is very little documentation on how to extend
-`remarkable`, so the foremost purpose of ReMarkably is filling that gap. Anyone interested can fork the
-repo, develop their own extensions, and issue pull requests to make more syntax extensions available to
-the masses.
+Sadly, as of this writing (2014-11-09), there is very little documentation on how to extend `remarkable`, so
+the foremost purpose of ReMarkably is filling that gap. Anyone interested can fork the repo, develop their
+own extensions, and issue pull requests to make more syntax extensions available to the masses.
+
+## Usage
+
+It's quite simple (using CoffeeScript here):
+
+```coffee
+log         = console.log
+RMY         = require 'remarkably'
+ReMarkable  = require 'remarkable'
+
+enable      = 'full'
+settings    =
+  html:           yes,            # Enable HTML tags in source
+  xhtmlOut:       no,             # Use '/' to close single tags (<br />)
+  breaks:         no,             # Convert '\n' in paragraphs into <br>
+  langPrefix:     'language-',    # CSS language prefix for fenced blocks
+  linkify:        yes,            # Autoconvert URL-like text to links
+  typographer:    yes,
+  quotes:         '“”‘’'
+
+RM          = new Remarkable enable, settings
+# same as `remarkable_parser.use extension.extend`:
+RMY.extend RM, RMY.examples.emphasis
+RMY.extend RM, RMY.examples.video
+
+log ast     = MD.parse  source
+log html    = MD.render source
+log RMY.examples.video.about
+```
+
+## Writing Your Own Extension
+
+Paste and copy one of the existing sources. A ReMarkably extension must be an object with up to four
+public attributes, namely `about`, `parse`, `render`, and `extend`. `about` is optional and should
+contain a short text explaining syntax, rendering, and possible options; `parse` is the parsing function;
+optionally, `render` contains a rendering function (in case you do not use one of the existing renderers),
+and `extend` contains the code expected by the `use` method of a `remarkable` parser instance.
+
+
+## A Note on `remarkable` Version and How to Install It
+
+As of now (2014-11-09), the `remarkable` version on npmjs.org does *not* work with ReMarkably; instead,
+you'll have to clone the remarkly repo on GitHub with
+
+```bash
+cd node_modules
+git clone https://github.com/jonschlinkert/remarkable.git
+```
+
+I guess this will not be an issue for much longer as the necessary code changes have been integrated into
+`remarkable` very swiftly.
+
+
+
+
 
