@@ -57,7 +57,7 @@ do =>
 #===========================================================================================================
 # EXTEND
 #-----------------------------------------------------------------------------------------------------------
-@extend = ( remarkable_parser, extension ) ->
+@use = ( remarkable_parser, extension ) ->
   return remarkable_parser.use extension
 
 
@@ -79,9 +79,9 @@ do =>
     quotes:         '“”‘’'
   #.........................................................................................................
   RM                        = new ReMarkable enable, settings
-  RMY.extend RM, video      = RMY.get.examples.video()
-  RMY.extend RM, emphasis   = RMY.get.examples.emphasis()
-  RMY.extend RM, emphasis2  = RMY.get.examples.emphasis2()
+  RMY.use RM, video      = RMY.get.examples.video()
+  RMY.use RM, emphasis   = RMY.get.examples.emphasis()
+  RMY.use RM, emphasis2  = RMY.get.examples.emphasis2()
   debug emphasis2
   source        = """=This= ==is== ===very=== §awesome§(c): %[example movie](http://example.com)"""
   # whisper ast   = RM.parse  source

@@ -56,7 +56,7 @@ one to rule them all.
 > with your changes, and any addition to the language will likely be kept indefinitely because even correcting
 > a mistake may break backward compatibility. JavaScript programmers know this very well: they have to live
 > with lots of 'original sins' because their language was born under a very swiftly wandering star, and
-> there was no time to correct oversights. Now they're baked into the language, and any change for the
+> there was no time to correct oversights. Now those flaws are baked into the language, and any change for the
 > better in JS core could potentially break many millions of websites.
 >
 > As Douglas [Crockford convincingly demonstrates in his 2013 MLOCJS *Syntaxation*
