@@ -1,5 +1,7 @@
 
 ############################################################################################################
+njs_path                  = require 'path'
+#...........................................................................................................
 TRM                       = require 'coffeenode-trm'
 rpr                       = TRM.rpr.bind TRM
 badge                     = 'REMARKABLY'
@@ -14,21 +16,46 @@ urge                      = TRM.get_logger 'urge',      badge
 echo                      = TRM.echo.bind TRM
 TEXT                      = require 'coffeenode-text'
 #...........................................................................................................
-@examples                 = require './examples'
+glob                      = require 'glob'
 
 
-# justify ∆<;
-# size ∆2(...)
-# brackets {}, [], [] (can't use <>, but <<>>, 《》 possible); should be turned into appropriate
-#   punctuation, bylines, or boxes
+#-----------------------------------------------------------------------------------------------------------
+@_discover = ->
+  globber = njs_path.join __dirname, './*/*.js'
+  R       = []
+  #.........................................................................................................
+  for route in glob.sync globber
+    extension_name  = ( njs_path.basename route ).replace /\.js$/, ''
+    collection_name = njs_path.basename njs_path.dirname route
+    R.push [ collection_name, extension_name, route, ]
+  #.........................................................................................................
+  return R
 
-############################################################################################################
+#-----------------------------------------------------------------------------------------------------------
+_me = @
+get = @get = {}
+do =>
+  for [ collection_name, extension_name, route, ] in _me._discover()
+    do ( collection_name, extension_name, route ) ->
+      ( get[ collection_name ]?= {} )[ extension_name ] = ->
+        extension = require route
+        for name in [ 'parse', 'render', 'extend', ]
+          extension[ name ] = method.bind extension if ( method = extension[ name ] )?
+        R = extension.extend
+        R[ 'name'   ] = "REMARKABLY/#{collection_name}/#{extension_name}"
+        R[ 'about'  ] = extension.about ? "(no documentation)"
+        return R
 
-@extend = ( remarkable_parser, extension ) -> remarkable_parser.use extension.extend
-
+#===========================================================================================================
+# EXTEND
+#-----------------------------------------------------------------------------------------------------------
+@extend = ( remarkable_parser, extension ) ->
+  return remarkable_parser.use extension
 
 
 #===========================================================================================================
+# MAIN
+#-----------------------------------------------------------------------------------------------------------
 @main = ->
   enable    = 'full'
   settings  =
@@ -107,3 +134,4 @@ TEXT                      = require 'coffeenode-text'
 ############################################################################################################
 unless module.parent?
   @main()
+

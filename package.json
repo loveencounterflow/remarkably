@@ -26,6 +26,7 @@
   "dependencies": {
     "coffee-script": "^1.8.0",
     "coffeenode-text": "^0.1.9",
-    "coffeenode-trm": "^0.1.20"
+    "coffeenode-trm": "^0.1.20",
+    "glob": "^4.0.6"
   }
 }
