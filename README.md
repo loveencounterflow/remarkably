@@ -106,7 +106,7 @@ and `extend` contains the code expected by the `use` method of a `remarkable` pa
 
 As of now (2014-11-09), the `remarkable` version avilable on npmjs.org does *not* work with ReMarkably;
 instead, <strike>you'll have to clone the `remarkable` repo on GitHub</strike> a custom-made version
-dubbed `remarkable-dev` has been bundles and can be accessed as
+dubbed `remarkable-dev` has been bundled and can be accessed as
 
 ```coffee
 RM = new ( require 'remarkably' ).ReMarkable presets, settings
