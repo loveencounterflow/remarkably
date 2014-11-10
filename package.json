@@ -30,7 +30,6 @@
     "coffeenode-trm": "^0.1.20",
     "coffeenode-types": "^0.1.1",
     "glob": "^4.0.6",
-    "remarkable": "^1.4.0",
-    "remarkable-dev": "^1.3.0"
+    "remarkable": "^1.4.0"
   }
 }
