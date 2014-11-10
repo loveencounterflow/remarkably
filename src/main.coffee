@@ -17,7 +17,8 @@ echo                      = TRM.echo.bind TRM
 TEXT                      = require 'coffeenode-text'
 #...........................................................................................................
 glob                      = require 'glob'
-@ReMarkable               = require 'remarkable-dev'
+# @ReMarkable               = require 'remarkable-dev'
+@ReMarkable               = require 'remarkable'
 
 
 #-----------------------------------------------------------------------------------------------------------

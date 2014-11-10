@@ -102,10 +102,11 @@ contain a short text explaining syntax, rendering, and possible options; `parse`
 optionally, `render` contains a rendering function (in case you do not use one of the existing renderers),
 and `extend` contains the code expected by the `use` method of a `remarkable` parser instance.
 
+<strike>
 ## A Note on the bundled `remarkable` Version
 
 As of now (2014-11-09), the `remarkable` version avilable on npmjs.org does *not* work with ReMarkably;
-instead, <strike>you'll have to clone the `remarkable` repo on GitHub</strike> a custom-made version
+instead, a custom-made version
 dubbed `remarkable-dev` has been bundled and can be accessed as
 
 ```coffee
@@ -114,7 +115,7 @@ RM = new ( require 'remarkably' ).ReMarkable presets, settings
 
 I guess this will not be an issue for much longer as the necessary code changes have been integrated into
 `remarkable` very swiftly.
-
+</strike>
 
 
 
