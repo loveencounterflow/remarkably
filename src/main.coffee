@@ -17,7 +17,6 @@ echo                      = TRM.echo.bind TRM
 TEXT                      = require 'coffeenode-text'
 #...........................................................................................................
 glob                      = require 'glob'
-# @ReMarkable               = require 'remarkable-dev'
 @ReMarkable               = require 'remarkable'
 
 
@@ -27,8 +26,8 @@ glob                      = require 'glob'
   R       = []
   #.........................................................................................................
   for route in glob.sync globber
-    extension_name  = ( njs_path.basename route ).replace /\.js$/, ''
-    collection_name = njs_path.basename njs_path.dirname route
+    extension_name  = ( ( njs_path.basename route ).replace /\.js$/, '' ).replace /-/g, '_'
+    collection_name = ( njs_path.basename njs_path.dirname route        ).replace /-/g, '_'
     R.push [ collection_name, extension_name, route, ]
   #.........................................................................................................
   return R
@@ -79,14 +78,15 @@ do =>
     typographer:    yes,
     quotes:         '“”‘’'
   #.........................................................................................................
-  RM                     = new RMY.ReMarkable enable, settings
-  RMY.use RM, video      = RMY.get.examples.video()
-  RMY.use RM, emphasis   = RMY.get.examples.emphasis()
-  RMY.use RM, emphasis2  = RMY.get.examples.emphasis2()
+  RM                            = new RMY.ReMarkable enable, settings
+  RMY.use RM, video             = RMY.get.examples.video()
+  RMY.use RM, emphasis          = RMY.get.examples.emphasis()
+  RMY.use RM, emphasis2         = RMY.get.examples.emphasis2()
+  RMY.use RM, multiple_brackets = RMY.get.examples.multiple_brackets()
   source        = """=This= ==is== ===very=== _awesome_(c): %[example movie](http://example.com)
     *A* **B** ***C*** ****D****
 
-    ***E****
+    ***E**** [link \\[title\\]](link-URL)
 
     ****F***"""
   whisper source
