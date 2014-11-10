@@ -1,6 +1,6 @@
 {
   "name": "remarkably",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "a collection of MarkDown syntax extensions for https://github.com/jonschlinkert/remarkable",
   "main": "lib/main.js",
   "scripts": {
