@@ -82,7 +82,12 @@ do =>
   RMY.use RM, video      = RMY.get.examples.video()
   RMY.use RM, emphasis   = RMY.get.examples.emphasis()
   RMY.use RM, emphasis2  = RMY.get.examples.emphasis2()
-  source        = """=This= ==is== ===very=== _awesome_(c): %[example movie](http://example.com)"""
+  source        = """=This= ==is== ===very=== _awesome_(c): %[example movie](http://example.com)
+    *A* **B** ***C*** ****D****
+
+    ***E****
+
+    ****F***"""
   whisper source
   info    html  = RM.render source
   # help()

@@ -15,7 +15,8 @@
     "markdown",
     "md",
     "commonmark",
-    "parser"
+    "parser",
+    "remarkable-plugin"
   ],
   "author": "",
   "license": "MIT",
