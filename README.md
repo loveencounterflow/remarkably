@@ -107,15 +107,32 @@ log RM.render source
 
 ```
 
+You can run the above with
+
+```bash
+remarkably/build && node remarkably/lib/main.js
+```
+
+which should output
+```html
+<p><i>This</i> <b>is</b> <b><i>very</i></b> <em>awesome</em>©: <video href='http://example.com'>example movie</video>
+<em>A</em> <strong>B</strong> <strong><em>C</em></strong> ****D****</p>
+<p>Here are</p>
+<ul>
+<li><span class='angles'>double pointy brackets</span>,</li>
+<li><span class='braces'>double braces</span>,</li>
+<li><span class='brackets-3'>triple square brackets</span>,</li>
+<li>也可以用 <span class='book-title'>中文書名号</span> 。</li>
+</ul>
+```
+
 ## Writing Your Own Extension
 
-Paste and copy one of the existing sources. A ReMarkably extension must be an object with up to four
-public attributes, namely `about`, `parse`, `render`, and `extend`. `about` is optional and should
-contain a short text explaining syntax, rendering, and possible options; `parse` is the parsing function;
-optionally, `render` contains a rendering function (in case you do not use one of the existing renderers),
-and `extend` contains the code expected by the `use` method of a `remarkable` parser instance.
+Paste and copy one of the existing sources. A dynamic extension (one that accepts parameters) should return
+an object with a `get` method. I'm in the middle of developing this, so details may change without notice;
+you probably want to copy from the avaible sources.
 
-Here is a rather involved example for an extension that accepts an opening and a closing bracket character,
+Here is an example for a dynamic extension that accepts an opening and a closing bracket character,
 an 'arity' (number of repetitions), and a rule name, and turns those into a rule to render
 `markup like [[[this]]]` as `<span class='yournamehere'>this</span>`:
 
