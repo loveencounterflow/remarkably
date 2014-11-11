@@ -33,28 +33,35 @@ glob                      = require 'glob'
   return R
 
 #-----------------------------------------------------------------------------------------------------------
-@get  = {}
-_me   = @
-do =>
+@_extend = ( collection_name, extension_name, route ) ->
   #.........................................................................................................
-  for [ collection_name, extension_name, route, ] in _me._discover()
+  getter = ( settings ) ->
+    extension       = require route
+    R               = if extension.get? then extension.get settings else extension
+    name            = R[ 'name'   ]?= "REMARKABLY/#{collection_name}/#{extension_name}"
+    about           = R[ 'about'  ]?= "(no documentation for $name$)"
+    R[ 'about'  ]   = about.replace /\$name\$/g, name
     #.......................................................................................................
-    do ( collection_name, extension_name, route ) ->
-      #.....................................................................................................
-      ( _me.get[ collection_name ]?= {} )[ extension_name ] = ( settings ) ->
-        R               = require route
-        R               = R.get settings if R.get?
-        full_name       = "REMARKABLY/#{collection_name}/#{extension_name}"
-        R[ 'name'   ]   = full_name
-        R[ 'about'  ]  ?= ( R[ 'about' ] ? "(no documentation for $name$)" ).replace /\$name\$/g, full_name
-        #...................................................................................................
-        for method_name in [ 'parse', 'render', 'extend', ]
-          R[ method_name ] = method.bind R if ( method = R[ method_name ] )?
-        #...................................................................................................
-        return R
+    for method_name in [ 'parse', 'render', 'extend', ]
+      R[ method_name ] = method.bind R if ( method = R[ method_name ] )?
+    #.......................................................................................................
+    return R
+  #.........................................................................................................
+  target                    = @get[ collection_name ]?= {}
+  target[ extension_name ]  = getter
+  return null
+
+#-----------------------------------------------------------------------------------------------------------
+@get  = {}
+
+#-----------------------------------------------------------------------------------------------------------
+do =>
+  for [ collection_name, extension_name, route, ] in @_discover()
+    @_extend collection_name, extension_name, route
+
 
 #===========================================================================================================
-# EXTEND
+# USE
 #-----------------------------------------------------------------------------------------------------------
 @use = ( remarkable_parser, extension ) ->
   return remarkable_parser.use extension.extend
@@ -76,23 +83,24 @@ do =>
     typographer:    yes,
     quotes:         '“”‘’'
   #.........................................................................................................
-  RM                      = new RMY.ReMarkable enable, settings
-  RMY.use RM, video       = RMY.get.examples.video()
-  RMY.use RM, emphasis    = RMY.get.examples.emphasis()
-  RMY.use RM, emphasis2   = RMY.get.examples.emphasis2()
-  RMY.use RM, angles      = RMY.get.examples.brackets opener: '<', closer: '>', arity: 2, name: 'angles'
-  RMY.use RM, braces      = RMY.get.examples.brackets opener: '{', closer: '}', arity: 2, name: 'braces'
-  debug '©5t2', angles
-  debug '©5t2', braces
-  debug '©5t2', braces is angles
+  RM                    = new RMY.ReMarkable enable, settings
+  RMY.use RM, video     = RMY.get.examples.video()
+  RMY.use RM, emphasis  = RMY.get.examples.emphasis()
+  RMY.use RM, emphasis2 = RMY.get.examples.emphasis2()
+  RMY.use RM, braces    = RMY.get.examples.brackets opener: '{',  closer: '}', arity: 2, name: 'braces'
+  RMY.use RM, angles    = RMY.get.examples.brackets opener: '<',  closer: '>', arity: 2, name: 'angles'
+  RMY.use RM, brackets  = RMY.get.examples.brackets opener: '[',  closer: ']', arity: 3, name: 'brackets-3'
+  # debug '©5t2', angles
+  # debug '©5t2', braces
+  # debug '©5t2', braces is angles
   source        = """=This= ==is== ===very=== _awesome_(c): %[example movie](http://example.com)
     *A* **B** ***C*** ****D****
 
-    these are <<angle brackets>> and {{braces}}.
-
-    ***E**** [link \\[title\\]](link-URL)
-
-    ****F***"""
+    Here are
+    * <<double pointy brackets>>,
+    * {{double braces}}, and
+    * [[[triple square brackets]]].
+    """
   whisper source
   info    html  = RM.render source
   # help()

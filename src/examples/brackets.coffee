@@ -6,11 +6,14 @@ BNP = require 'coffeenode-bitsnpieces'
 
 #===========================================================================================================
 @get = ( settings ) ->
-  rule         = {}
-  rule._opener = settings?[ 'opener' ] ? '<'
-  rule._closer = settings?[ 'closer' ] ? '>'
-  rule._arity  = settings?[  'arity' ] ? 2
-  rule._name   = settings?[  'name'  ] ? 'angles'
+
+  #---------------------------------------------------------------------------------------------------------
+  rule              = {}
+  rule._opener      = settings?[ 'opener'  ] ? '<'
+  rule._closer      = settings?[ 'closer'  ] ? '>'
+  rule._arity       = settings?[ 'arity'   ] ? 2
+  rule._class_name  = settings?[ 'name' ] ? 'angles'
+  rule.name         = 'REMARKABLY/examples/' + rule._class_name
 
   #---------------------------------------------------------------------------------------------------------
   rule.about = """$name$ recognizes text stretches enclosed by multiple brackets."""
@@ -60,8 +63,7 @@ BNP = require 'coffeenode-bitsnpieces'
   #---------------------------------------------------------------------------------------------------------
   rule.render = ( tokens, idx ) -> # options
     { content, opener, closer, } = tokens[ idx ]
-    console.log '©4g6', opener, closer, rule._name
-    return "<em class='#{rule._name}'>#{content}</em>"
+    return "<span class='#{rule._class_name}'>#{content}</span>"
 
   #---------------------------------------------------------------------------------------------------------
   rule.extend = ( self ) ->
