@@ -3,12 +3,12 @@
 
 ############################################################################################################
 BNP                       = require 'coffeenode-bitsnpieces'
-#...........................................................................................................
-TRM                       = require 'coffeenode-trm'
-rpr                       = TRM.rpr.bind TRM
-badge                     = 'REMARKABLY/examples/brackets'
-log                       = TRM.get_logger 'plain',     badge
-info                      = TRM.get_logger 'info',      badge
+# #...........................................................................................................
+# TRM                       = require 'coffeenode-trm'
+# rpr                       = TRM.rpr.bind TRM
+# badge                     = 'REMARKABLY/examples/brackets'
+# log                       = TRM.get_logger 'plain',     badge
+# info                      = TRM.get_logger 'info',      badge
 
 
 
@@ -54,7 +54,6 @@ info                      = TRM.get_logger 'info',      badge
   rule.parse = ( state, silent ) ->
     #.......................................................................................................
     { src, pos, }       = state
-    # rule._re.lastIndex  = pos; info '©8g1', pos, ( rpr src[ pos ... ] ), rule._re.exec src
     rule._re.lastIndex  = pos
     return false if ( not ( match = rule._re.exec src )? ) or match[ 'index' ] isnt pos
     [ all, opener, content, closer, ] = match

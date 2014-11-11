@@ -85,13 +85,26 @@ settings    =
   typographer:    yes,
   quotes:         '“”‘’'
 
-RM          = new RMY.Remarkable enable, settings
-RMY.extend RM, RMY.examples.emphasis
-RMY.extend RM, RMY.examples.video
+RM                    = new RMY.ReMarkable enable, settings
+RMY.use RM, video     = RMY.get.examples.video()
+RMY.use RM, emphasis  = RMY.get.examples.emphasis()
+RMY.use RM, emphasis2 = RMY.get.examples.emphasis2()
+RMY.use RM, braces    = RMY.get.examples.brackets opener: '{',  closer: '}', arity: 2, name: 'braces'
+RMY.use RM, angles    = RMY.get.examples.brackets opener: '<',  closer: '>', arity: 2, name: 'angles'
+RMY.use RM, brackets  = RMY.get.examples.brackets opener: '[',  closer: ']', arity: 3, name: 'brackets-3'
+RMY.use RM, smh       = RMY.get.examples.brackets opener: '《',  closer: '》', arity: 1, name: 'book-title'
+source        = """
+  =This= ==is== ===very=== _awesome_(c): %[example movie](http://example.com)
+  *A* **B** ***C*** ****D****
 
-log ast     = MD.parse  source
-log html    = MD.render source
-log RMY.examples.video.about
+  Here are
+  * <<double pointy brackets>>,
+  * {{double braces}},
+  * [[[triple square brackets]]],
+  * 也可以用 《中文書名号》 。
+  """.trim()
+log RM.render source
+
 ```
 
 ## Writing Your Own Extension
@@ -101,6 +114,84 @@ public attributes, namely `about`, `parse`, `render`, and `extend`. `about` is o
 contain a short text explaining syntax, rendering, and possible options; `parse` is the parsing function;
 optionally, `render` contains a rendering function (in case you do not use one of the existing renderers),
 and `extend` contains the code expected by the `use` method of a `remarkable` parser instance.
+
+Here is a rather involved example for an extension that accepts an opening and a closing bracket character,
+an 'arity' (number of repetitions), and a rule name, and turns those into a rule to render
+`markup like [[[this]]]` as `<span class='yournamehere'>this</span>`:
+
+```coffee
+
+#===========================================================================================================
+@get = ( settings ) ->
+
+  #---------------------------------------------------------------------------------------------------------
+  rule                = {}
+  rule._opener        = settings?[ 'opener'  ] ? '<'
+  rule._closer        = settings?[ 'closer'  ] ? '>'
+  rule.terminators    = rule._opener
+  rule._arity         = settings?[ 'arity'   ] ? 2
+  rule._class_name    = settings?[ 'name' ] ? 'angles'
+  rule.name           = 'REMARKABLY/examples/' + rule._class_name
+
+  #---------------------------------------------------------------------------------------------------------
+  rule.about = """$name$ recognizes text stretches enclosed by multiple brackets."""
+
+  #---------------------------------------------------------------------------------------------------------
+  rule._get_multiple_bracket_pattern = ( opener, closer, arity = 2, anchor = no ) ->
+    opener      = "(?:#{BNP.escape_regex opener})"
+    closer      = "(?:#{BNP.escape_regex closer})"
+    anchor      = if anchor then '^' else ''
+    repeat_all  = if arity is 1 then '' else "{#{arity}}"
+    repeat_some = if arity is 1 then '' else "{1,#{arity}}"
+    #.......................................................................................................
+    return """
+      #{anchor}
+      (#{opener}#{repeat_all}(?!#{opener}))
+        ((?:
+          \\\\#{closer}|
+          [^#{closer}]|
+          #{closer}#{repeat_some}(?!#{closer})
+        )*)
+        (#{closer}#{repeat_all})(?!#{closer})
+      """.replace /\n\s*/g, ''
+
+  #---------------------------------------------------------------------------------------------------------
+  rule._pattern = rule._get_multiple_bracket_pattern rule._opener, rule._closer, rule._arity, no
+  rule._re      = new RegExp rule._pattern, 'g' # need `g` for `lastIndex`
+
+  #---------------------------------------------------------------------------------------------------------
+  rule.parse = ( state, silent ) ->
+    #.......................................................................................................
+    { src, pos, }       = state
+    rule._re.lastIndex  = pos
+    return false if ( not ( match = rule._re.exec src )? ) or match[ 'index' ] isnt pos
+    [ all, opener, content, closer, ] = match
+    unless silent
+      state.push
+        type:     rule.name
+        opener:   opener
+        closer:   closer
+        content:  content
+        block:    false
+        level:    state.level
+    #.......................................................................................................
+    state.pos += all.length
+    return true
+
+  #---------------------------------------------------------------------------------------------------------
+  rule.render = ( tokens, idx ) -> # options
+    { content, opener, closer, } = tokens[ idx ]
+    return "<span class='#{rule._class_name}'>#{content}</span>"
+
+  #---------------------------------------------------------------------------------------------------------
+  rule.extend = ( self ) ->
+    self.inline.ruler.before self.inline.ruler[ 'rules' ][ 0 ][ 'name' ], rule.name, rule.parse
+    self.renderer.rules[ rule.name ] = rule.render
+    return null
+
+  #---------------------------------------------------------------------------------------------------------
+  return rule
+```
 
 ## `remarkable` Compatibility
 
