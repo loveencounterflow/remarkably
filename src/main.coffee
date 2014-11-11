@@ -15,9 +15,12 @@ help                      = TRM.get_logger 'help',      badge
 urge                      = TRM.get_logger 'urge',      badge
 echo                      = TRM.echo.bind TRM
 TEXT                      = require 'coffeenode-text'
+TYPES                     = require 'coffeenode-types'
 #...........................................................................................................
 glob                      = require 'glob'
-@ReMarkable               = require 'remarkable'
+# @ReMarkable               = require 'remarkable'
+@ReMarkable               = require 'remarkable-dev'
+@_terminator_chrs         = ( require 'remarkable-dev/lib/rules_inline/text' )[ 'terminatorChrs' ]
 
 
 #-----------------------------------------------------------------------------------------------------------
@@ -35,12 +38,16 @@ glob                      = require 'glob'
 #-----------------------------------------------------------------------------------------------------------
 @_extend = ( collection_name, extension_name, route ) ->
   #.........................................................................................................
-  getter = ( settings ) ->
+  getter = ( settings ) =>
     extension       = require route
     R               = if extension.get? then extension.get settings else extension
     name            = R[ 'name'   ]?= "REMARKABLY/#{collection_name}/#{extension_name}"
     about           = R[ 'about'  ]?= "(no documentation for $name$)"
     R[ 'about'  ]   = about.replace /\$name\$/g, name
+    #.......................................................................................................
+    if ( terminators = R.terminators )?
+      chrs = if TYPES.isa_list terminators then terminators else TEXT.split terminators
+      @_terminator_chrs[ chr ] = true for chr in chrs
     #.......................................................................................................
     for method_name in [ 'parse', 'render', 'extend', ]
       R[ method_name ] = method.bind R if ( method = R[ method_name ] )?
@@ -90,19 +97,22 @@ do =>
   RMY.use RM, braces    = RMY.get.examples.brackets opener: '{',  closer: '}', arity: 2, name: 'braces'
   RMY.use RM, angles    = RMY.get.examples.brackets opener: '<',  closer: '>', arity: 2, name: 'angles'
   RMY.use RM, brackets  = RMY.get.examples.brackets opener: '[',  closer: ']', arity: 3, name: 'brackets-3'
+  RMY.use RM, smh       = RMY.get.examples.brackets opener: '《',  closer: '》', arity: 1, name: 'book-title'
   # debug '©5t2', angles
   # debug '©5t2', braces
   # debug '©5t2', braces is angles
-  source        = """=This= ==is== ===very=== _awesome_(c): %[example movie](http://example.com)
+  source        = """
+    =This= ==is== ===very=== _awesome_(c): %[example movie](http://example.com)
     *A* **B** ***C*** ****D****
 
     Here are
     * <<double pointy brackets>>,
-    * {{double braces}}, and
-    * [[[triple square brackets]]].
-    """
+    * {{double braces}},
+    * [[[triple square brackets]]],
+    * 也可以用 《中文書名号》 。
+    """.trim()
   whisper source
-  info    html  = RM.render source
+  info html = RM.render source
   # help()
   # help emphasis.about
   # help()

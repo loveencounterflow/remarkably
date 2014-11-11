@@ -2,18 +2,35 @@
 
 
 ############################################################################################################
-BNP = require 'coffeenode-bitsnpieces'
+BNP                       = require 'coffeenode-bitsnpieces'
+#...........................................................................................................
+TRM                       = require 'coffeenode-trm'
+rpr                       = TRM.rpr.bind TRM
+badge                     = 'REMARKABLY/examples/brackets'
+log                       = TRM.get_logger 'plain',     badge
+info                      = TRM.get_logger 'info',      badge
+# whisper                   = TRM.get_logger 'whisper',   badge
+# alert                     = TRM.get_logger 'alert',     badge
+# debug                     = TRM.get_logger 'debug',     badge
+# warn                      = TRM.get_logger 'warn',      badge
+# help                      = TRM.get_logger 'help',      badge
+# urge                      = TRM.get_logger 'urge',      badge
+# echo                      = TRM.echo.bind TRM
+
+
 
 #===========================================================================================================
 @get = ( settings ) ->
 
   #---------------------------------------------------------------------------------------------------------
-  rule              = {}
-  rule._opener      = settings?[ 'opener'  ] ? '<'
-  rule._closer      = settings?[ 'closer'  ] ? '>'
-  rule._arity       = settings?[ 'arity'   ] ? 2
-  rule._class_name  = settings?[ 'name' ] ? 'angles'
-  rule.name         = 'REMARKABLY/examples/' + rule._class_name
+  rule                = {}
+  rule._opener        = settings?[ 'opener'  ] ? '<'
+  rule._closer        = settings?[ 'closer'  ] ? '>'
+  ### TAINT splits codepoints beyond 0xffff: ###
+  rule.terminators    = rule._opener
+  rule._arity         = settings?[ 'arity'   ] ? 2
+  rule._class_name    = settings?[ 'name' ] ? 'angles'
+  rule.name           = 'REMARKABLY/examples/' + rule._class_name
 
   #---------------------------------------------------------------------------------------------------------
   rule.about = """$name$ recognizes text stretches enclosed by multiple brackets."""
@@ -44,7 +61,8 @@ BNP = require 'coffeenode-bitsnpieces'
   #---------------------------------------------------------------------------------------------------------
   rule.parse = ( state, silent ) ->
     #.......................................................................................................
-    { src, pos, }   = state
+    { src, pos, }       = state
+    # rule._re.lastIndex  = pos; info '©8g1', pos, ( rpr src[ pos ... ] ), rule._re.exec src
     rule._re.lastIndex  = pos
     return false if ( not ( match = rule._re.exec src )? ) or match[ 'index' ] isnt pos
     [ all, opener, content, closer, ] = match
