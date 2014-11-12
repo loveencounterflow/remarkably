@@ -73,6 +73,12 @@ do =>
 @use = ( remarkable_parser, extension ) ->
   return remarkable_parser.use extension.extend
 
+#===========================================================================================================
+# INSTANTIATION
+#-----------------------------------------------------------------------------------------------------------
+@new_parser = ( P... ) ->
+  return new @ReMarkable P...
+
 
 #===========================================================================================================
 # MAIN
@@ -90,7 +96,7 @@ do =>
     typographer:    yes,
     quotes:         '“”‘’'
   #.........................................................................................................
-  RM                    = new RMY.ReMarkable enable, settings
+  RM                    = RMY.new_parser enable, settings
   RMY.use RM, video     = RMY.get.examples.video()
   RMY.use RM, emphasis  = RMY.get.examples.emphasis()
   RMY.use RM, emphasis2 = RMY.get.examples.emphasis2()
@@ -98,6 +104,12 @@ do =>
   RMY.use RM, angles    = RMY.get.examples.brackets opener: '<',  closer: '>', arity: 2, name: 'angles'
   RMY.use RM, brackets  = RMY.get.examples.brackets opener: '[',  closer: ']', arity: 3, name: 'brackets-3'
   RMY.use RM, smh       = RMY.get.examples.brackets opener: '《',  closer: '》', arity: 1, name: 'book-title'
+  RMY.use RM,             RMY.get.examples.brackets opener: '+',  closer: '+', arity: 1, name: 'plus-1'
+  RMY.use RM,             RMY.get.examples.brackets opener: '+',  closer: '+', arity: 2, name: 'plus-2'
+  RMY.use RM,             RMY.get.examples.brackets opener: '+',  closer: '+', arity: 3, name: 'plus-3'
+  RMY.use RM,             RMY.get.examples.brackets opener: '+',  closer: '+', arity: 4, name: 'plus-4'
+  RMY.use RM,             RMY.get.examples.xncrs()
+  debug @_terminator_chrs
   # debug '©5t2', angles
   # debug '©5t2', braces
   # debug '©5t2', braces is angles
@@ -105,10 +117,16 @@ do =>
     =This= ==is== ===very=== _awesome_(c): %[example movie](http://example.com)
     *A* **B** ***C*** ****D****
 
+    A non-standard, namespaced XNCR: &jzr#xe100;
+
     Here are
     * <<double pointy brackets>>,
     * {{double braces}},
     * [[[triple square brackets]]],
+    * +single plus signs+,
+    * ++double plus signs++,
+    * +++triple plus signs+++,
+    * ++++quadruple plus signs++++,
     * 也可以用 《中文書名号》 。
     """.trim()
   whisper source
