@@ -4,11 +4,11 @@
 ############################################################################################################
 BNP                       = require 'coffeenode-bitsnpieces'
 # #...........................................................................................................
-# TRM                       = require 'coffeenode-trm'
-# rpr                       = TRM.rpr.bind TRM
-# badge                     = 'REMARKABLY/examples/brackets'
-# log                       = TRM.get_logger 'plain',     badge
-# info                      = TRM.get_logger 'info',      badge
+TRM                       = require 'coffeenode-trm'
+rpr                       = TRM.rpr.bind TRM
+badge                     = 'REMARKABLY/examples/brackets'
+log                       = TRM.get_logger 'plain',     badge
+info                      = TRM.get_logger 'info',      badge
 
 
 
@@ -76,7 +76,7 @@ BNP                       = require 'coffeenode-bitsnpieces'
 
   #---------------------------------------------------------------------------------------------------------
   rule.extend = ( self ) ->
-    self.inline.ruler.before self.inline.ruler[ 'rules' ][ 0 ][ 'name' ], rule.name, rule.parse
+    self.inline.ruler.before self.inline.ruler[ '__rules__' ][ 0 ][ 'name' ], rule.name, rule.parse
     self.renderer.rules[ rule.name ] = rule.render
     return null
 

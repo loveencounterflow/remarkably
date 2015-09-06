@@ -18,8 +18,8 @@ TEXT                      = require 'coffeenode-text'
 TYPES                     = require 'coffeenode-types'
 #...........................................................................................................
 glob                      = require 'glob'
-# @ReMarkable               = require 'remarkable'
-@ReMarkable               = require 'remarkable-dev'
+@ReMarkable               = require 'remarkable'
+# @ReMarkable               = require 'remarkable-dev'
 @_terminator_chrs         = ( require 'remarkable-dev/lib/rules_inline/text' )[ 'terminatorChrs' ]
 
 
@@ -47,6 +47,7 @@ glob                      = require 'glob'
     #.......................................................................................................
     if ( terminators = R.terminators )?
       chrs = if TYPES.isa_list terminators then terminators else TEXT.split terminators
+      # debug '©kR6ej', name, chrs
       @_terminator_chrs[ chr ] = true for chr in chrs
     #.......................................................................................................
     for method_name in [ 'parse', 'render', 'extend', ]
@@ -108,6 +109,7 @@ do =>
   RMY.use RM,             RMY.get.examples.brackets opener: '+',  closer: '+', arity: 2, name: 'plus-2'
   RMY.use RM,             RMY.get.examples.brackets opener: '+',  closer: '+', arity: 3, name: 'plus-3'
   RMY.use RM,             RMY.get.examples.brackets opener: '+',  closer: '+', arity: 4, name: 'plus-4'
+  RMY.use RM,             RMY.get.examples.newline matcher: '$$'
   RMY.use RM,             RMY.get.examples.xncrs()
   debug @_terminator_chrs
   # debug '©5t2', angles
@@ -116,6 +118,8 @@ do =>
   source        = """
     =This= ==is== ===very=== _awesome_(c): %[example movie](http://example.com)
     *A* **B** ***C*** ****D****
+
+    A line$$with a newline.
 
     A non-standard, namespaced XNCR: &jzr#xe100;
 

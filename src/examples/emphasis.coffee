@@ -43,6 +43,6 @@
 
 #-----------------------------------------------------------------------------------------------------------
 @extend = ( self ) ->
-  self.inline.ruler.before self.inline.ruler[ 'rules' ][ 0 ][ 'name' ], @name, @parse
+  self.inline.ruler.before self.inline.ruler[ '__rules__' ][ 0 ][ 'name' ], @name, @parse
   self.renderer.rules[ @name ] = @render
   return null

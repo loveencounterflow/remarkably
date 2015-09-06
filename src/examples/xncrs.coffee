@@ -22,6 +22,7 @@ CHR                       = require 'coffeenode-chr'
 #-----------------------------------------------------------------------------------------------------------
 @parse = ( state, silent ) ->
   { src, pos, }           = state
+  debug '©QBSHK>>>>>>>>>>>', src[ pos .. pos + 10 ]
   return false unless src[ pos ] is '&'
   @_matcher.lastIndex     = pos
   match                   = @_matcher.exec src
@@ -48,6 +49,6 @@ CHR                       = require 'coffeenode-chr'
 @extend = ( self ) ->
   # last_idx = self.inline.ruler[ 'rules' ].length - 1
   # self.inline.ruler.after self.inline.ruler[ 'rules' ][ last_idx ][ 'name' ], @name, @parse
-  self.inline.ruler.before self.inline.ruler[ 'rules' ][ 0 ][ 'name' ], @name, @parse
+  self.inline.ruler.before self.inline.ruler[ '__rules__' ][ 0 ][ 'name' ], @name, @parse
   self.renderer.rules[ @name ] = @render
   return null
